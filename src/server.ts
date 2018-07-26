@@ -1,5 +1,6 @@
 import express from "express";
-import { MainController } from "./controllers/MainController";
+import "reflect-metadata";
+import { MainController } from "./controllers/EventController";
 
 const app: express.Application = express();
 const port: string | number = process.env.PORT || 3000;
