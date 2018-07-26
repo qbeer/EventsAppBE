@@ -1,0 +1,23 @@
+{
+  "name": "events-app-backend",
+  "version": "1.0.0",
+  "description": "Google calendar integration in backend. Modern REST API with DB connection using TypeORM support. The whole project will use TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "tsc" : "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qbeer/EventsAppBE.git"
+  },
+  "author": "Alex Olar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qbeer/EventsAppBE/issues"
+  },
+  "homepage": "https://github.com/qbeer/EventsAppBE#readme",
+  "dependencies": {
+    "typescript": "^2.9.2"
+  }
+}
