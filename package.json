@@ -6,7 +6,7 @@
     "node": "9.11.x"
   },
   "description": "Google calendar integration in backend. Modern REST API with DB connection using TypeORM support. The whole project will use TypeScript.",
-  "main": "index.js",
+  "main": "build/server.js",
   "scripts": {
     "start": "tsc && node build/server.js",
     "tsc": "tsc",
