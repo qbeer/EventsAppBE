@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "engines": {
     "npm": "6.0.x",
-    "node": "9.11.x"
+    "node": "9.x"
   },
   "description": "Google calendar integration in backend. Modern REST API with DB connection using TypeORM support. The whole project will use TypeScript.",
   "main": "build/server.js",
