@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class Event {
     // tslint:disable:member-access
     @PrimaryGeneratedColumn()
-    id: number | undefined;
+    id?: number | undefined;
 
     @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" , nullable: false})
     eventDate: Date | undefined;
@@ -16,7 +16,7 @@ export class Event {
     eventHost: string | undefined;
 
     @Column({type: "int", nullable: true})
-    maxParticipants: number | undefined;
+    maxParticipants?: number | undefined;
 
     @Column({type: "varchar", length: 45, nullable: false})
     eventLocation: string | undefined;
