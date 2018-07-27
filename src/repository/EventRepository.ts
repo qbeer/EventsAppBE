@@ -3,26 +3,37 @@ import { Event } from "../model/Event";
 
 export class EventRepository {
 
-    private repository: Repository<Event>;
+    private repository: Repository<Event> | undefined;
 
-    constructor() {
-        this.repository = getConnection(process.env.DB || "test").manager.getRepository(Event);
-    }
+    constructor(private connectionType: string) {}
 
-    public async saveEvent(event: Event): Promise<void> {
+    public save(event: Event): Promise<Event> {
         try {
-            await this.repository.save(event);
+            return this.getRepository().save(event);
         } catch (dbError) {
             throw dbError;
         }
     }
 
-    public async getAll(): Promise<Event[]> {
+    public getAll(): Promise<Event[]> {
         try {
-            return this.repository.find();
+            return this.getRepository().find({
+                order: {
+                    // tslint:disable-next-line:trailing-comma
+                    eventDate: "DESC"
+                // tslint:disable-next-line:trailing-comma
+                }
+            });
         } catch (dbError) {
             return dbError;
         }
+    }
+
+    private getRepository() {
+        if (this.repository == null) {
+            this.repository = getConnection(this.connectionType).manager.getRepository(Event);
+        }
+        return this.repository;
     }
 
 }

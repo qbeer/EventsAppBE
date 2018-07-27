@@ -9,7 +9,7 @@
   "scripts": {
     "start": "DB=default ts-node src/server.ts",
     "tsc": "tsc",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.0",
     "jest": "^23.4.1",
-    "sqlite": "^2.9.2",
+    "sqlite3": "^4.0.2",
     "ts-jest": "^23.0.1"
   }
 }
