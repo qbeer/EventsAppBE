@@ -7,9 +7,8 @@
   "description": "Google calendar integration in backend. Modern REST API with DB connection using TypeORM support. The whole project will use TypeScript.",
   "main": "",
   "scripts": {
-    "start": "ts-node src/server.ts",
+    "start": "DB=default ts-node src/server.ts",
     "tsc": "tsc",
-    "postinstall": "npm run tsc",
     "test": "jest --coverage"
   },
   "repository": {
@@ -51,6 +50,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.0",
     "jest": "^23.4.1",
+    "sqlite": "^2.9.2",
     "ts-jest": "^23.0.1"
   }
 }
