@@ -6,8 +6,8 @@ export class Event {
     @PrimaryGeneratedColumn()
     id?: number | undefined;
 
-    @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP" , nullable: false})
-    eventDate: Date | undefined;
+    @Column({ type: "datetime", default: () => "CURRENT_TIMESTAMP"})
+    eventDate?: Date | undefined;
 
     @Column({ type: "text", nullable: false })
     eventDescription: string | undefined;

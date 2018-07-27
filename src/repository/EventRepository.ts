@@ -18,12 +18,7 @@ export class EventRepository {
     public getAll(): Promise<Event[]> {
         try {
             return this.getRepository().find({
-                order: {
-                    // tslint:disable-next-line:trailing-comma
-                    eventDate: "DESC"
-                // tslint:disable-next-line:trailing-comma
-                }
-            });
+                order: {eventDate: "DESC"}});
         } catch (dbError) {
             return dbError;
         }

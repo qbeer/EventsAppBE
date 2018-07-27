@@ -1,27 +1,33 @@
 import { Request, Response, Router } from "express";
+import { DB_ERROR_CODE, REQUEST_SUCCESS } from "../config";
 import { EventController } from "./controllers/EventController";
 import { ControllerFactory } from "./factory/ControllerFactory";
+import { Event } from "./model/Event";
 
 const appRouter: Router = Router();
 
 const eventController: EventController = ControllerFactory.getInstance();
 
 appRouter.post("/save", async (req: Request, res: Response) => {
-    const { event } = req.body;
+    const event: Event = {
+        eventDescription: req.body.eventDescription,
+        eventHost: req.body.eventHost,
+        eventLocation: req.body.eventLocation,
+        maxParticipants: req.body.maxParticipants ? req.body.maxParticipants : undefined};
     try {
         eventController.save(event);
     } catch (endpointErr) {
-        res.status(505);
+        res.status(DB_ERROR_CODE);
     }
-    res.status(400);
+    res.status(REQUEST_SUCCESS);
 });
 
 appRouter.get("/all", async (req: Request, res: Response) => {
     try {
         const events = await eventController.all();
-        res.status(400).send(events);
+        res.status(REQUEST_SUCCESS).send(events);
     } catch (err) {
-        res.status(505);
+        res.status(DB_ERROR_CODE);
     }
 });
 
