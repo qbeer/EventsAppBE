@@ -4,7 +4,6 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { CONNECTION_TYPE, PORT } from "../config";
 import { router } from "./router";
-import { testGoogle } from "./service/CalendarService";
 
 export const app: express.Application = express();
 const port: string | number = PORT;
@@ -15,8 +14,6 @@ createConnection(connectionType).then(() => {
     app.use(bodyParser.json());
 
     app.use(router);
-
-    testGoogle();
 
     console.log("Connection to DB established.");
     app.listen(port, () => {

@@ -23,12 +23,12 @@ appRouter.post("/save", async (req: Request, res: Response) => {
 });
 
 appRouter.get("/all", async (req: Request, res: Response) => {
-    try {
-        const events = await eventController.all();
+    await   eventController.all().then((events) => {
+        console.log(events);
         res.status(REQUEST_SUCCESS).send(events);
-    } catch (err) {
+    }).catch(() => {
         res.status(DB_ERROR_CODE);
-    }
+    });
 });
 
 export const router: Router = appRouter;

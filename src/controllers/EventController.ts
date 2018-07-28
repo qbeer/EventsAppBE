@@ -10,7 +10,7 @@ export class EventController {
         return this.service.save(event);
     }
 
-    public all(): Promise<Event[]> {
+    public all(): Promise<Event[] | void> {
         return this.service.getAll();
     }
 }
