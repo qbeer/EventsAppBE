@@ -10,7 +10,7 @@ const writeFile = util.promisify(fs.writeFile);
 
 export class CalendarAuthService {
 
-    public authorizedClient(): Promise<OAuth2Client | void> {
+    public authorizedClient(): Promise<OAuth2Client> {
         return readFile("credentials.json").then((credentials) => {
             const { client_secret, client_id, redirect_uris } =
                 JSON.parse(credentials.toString()).installed;
@@ -21,7 +21,8 @@ export class CalendarAuthService {
                 return oAuth2Client;
             });
         }).catch((err) => {
-            return console.log("Authentication error:", err);
+            console.log("Authentication error:", err);
+            throw err;
         });
     }
 

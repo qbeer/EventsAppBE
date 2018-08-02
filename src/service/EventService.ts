@@ -5,11 +5,11 @@ export class EventService {
 
     constructor(private service: CalendarService) {}
 
-    public getAll(): Promise<Event[] | void> {
+    public getAll(): Promise<Event[]> {
         return this.service.getUpcomingEvents();
     }
 
-    public save(event: Event): Promise<Event | void> {
+    public save(event: Event): Promise<Event> {
         return this.service.insertEvent(event);
     }
 

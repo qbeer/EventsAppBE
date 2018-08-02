@@ -5,11 +5,11 @@ export class EventController {
 
     constructor(private service: EventService) {}
 
-    public save(event: Event): Promise<Event | void> {
+    public save(event: Event): Promise<Event> {
         return this.service.save(event);
     }
 
-    public all(): Promise<Event[] | void> {
+    public getAll(): Promise<Event[]> {
         return this.service.getAll();
     }
 }

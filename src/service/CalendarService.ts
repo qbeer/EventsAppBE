@@ -1,16 +1,16 @@
 import { OAuth2Client } from "google-auth-library";
-import { google } from "googleapis";
+import { calendar_v3, google } from "googleapis";
 import { Event } from "../model/Event";
 
 export class CalendarService {
 
-    private calendar: any;
+    private calendar: calendar_v3.Calendar;
 
     constructor(client: OAuth2Client) {
         this.calendar = google.calendar({version: "v3", auth: client});
     }
 
-    public getUpcomingEvents(): Promise<Event[] | void> {
+    public getUpcomingEvents(): Promise<Event[]> {
 
         return this.calendar.events.list({
             calendarId: "primary",
@@ -21,7 +21,6 @@ export class CalendarService {
         }).then((res) => {
             const events = res.data.items;
             if (events.length) {
-                console.log("#events", events.length);
                 const myEvents: Event[] = [];
                 events.map((event) => {
                     const myEvent: Event = new Event();
@@ -36,18 +35,18 @@ export class CalendarService {
                     }
                     myEvents.push(myEvent);
                 });
-                console.log(myEvents);
                 return myEvents;
             } else {
-                console.log("No upcoming events found.");
-                return console.log("No events.");
+                console.log("No upcoming events.");
+                throw new Error();
             }
         }).catch((err) => {
-            return console.log("Error encountered: " + err);
+            console.log("Error encountered during event listing: " + err);
+            throw err;
         });
     }
 
-    public insertEvent(event: Event): Promise<Event | void> {
+    public insertEvent(event: Event): Promise<Event> {
         event.eventDate = new Date();
         event.eventDate.setFullYear(2021);
         const myEvent = {
@@ -83,7 +82,8 @@ export class CalendarService {
         }).then((rEvent) => {
             return event;
         }).catch((err) => {
-            return console.log("Error adding event: " + err);
+            console.log("Error adding event: " + err);
+            throw err;
         });
     }
 

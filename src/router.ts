@@ -11,7 +11,7 @@ export function setUpRouter(client: OAuth2Client): Router {
     const appRouter: Router = Router();
     const eventController: EventController = ControllerFactory.getInstance(client);
 
-    appRouter.post("/save", async (req: Request, res: Response) => {
+    appRouter.post("/save", (req: Request, res: Response) => {
         const event: Event = {
             eventDescription: req.body.eventDescription,
             eventHost: req.body.eventHost,
@@ -25,7 +25,7 @@ export function setUpRouter(client: OAuth2Client): Router {
     });
 
     appRouter.get("/all", (req: Request, res: Response) => {
-        eventController.all().then((events) => {
+        eventController.getAll().then((events) => {
             res.send(events).status(REQUEST_SUCCESS);
         }).catch(() => {
             res.send("ERROR").status(ERROR_CODE);
