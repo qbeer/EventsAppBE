@@ -1,34 +1,37 @@
 import { Request, Response, Router } from "express";
-import { DB_ERROR_CODE, REQUEST_SUCCESS } from "../config";
+import { OAuth2Client } from "google-auth-library";
+import { ERROR_CODE, REQUEST_SUCCESS } from "../config";
 import { EventController } from "./controllers/EventController";
 import { ControllerFactory } from "./factory/ControllerFactory";
 import { Event } from "./model/Event";
 
-const appRouter: Router = Router();
 
-const eventController: EventController = ControllerFactory.getInstance();
+export function setUpRouter(client: OAuth2Client): Router {
 
-appRouter.post("/save", async (req: Request, res: Response) => {
-    const event: Event = {
-        eventDescription: req.body.eventDescription,
-        eventHost: req.body.eventHost,
-        eventLocation: req.body.eventLocation,
-        maxParticipants: req.body.maxParticipants ? req.body.maxParticipants : undefined};
-    try {
-        eventController.save(event);
-    } catch (endpointErr) {
-        res.status(DB_ERROR_CODE);
-    }
-    res.status(REQUEST_SUCCESS);
-});
+    const appRouter: Router = Router();
+    const eventController: EventController = ControllerFactory.getInstance(client);
 
-appRouter.get("/all", async (req: Request, res: Response) => {
-    await   eventController.all().then((events) => {
-        console.log(events);
-        res.status(REQUEST_SUCCESS).send(events);
-    }).catch(() => {
-        res.status(DB_ERROR_CODE);
+    appRouter.post("/save", async (req: Request, res: Response) => {
+        const event: Event = {
+            eventDescription: req.body.eventDescription,
+            eventHost: req.body.eventHost,
+            eventLocation: req.body.eventLocation,
+            maxParticipants: req.body.maxParticipants ? req.body.maxParticipants : undefined };
+        eventController.save(event).then((savedEvent) => {
+            res.send(savedEvent).status(REQUEST_SUCCESS);
+        }).catch(() => {
+            res.send("ERROR").status(ERROR_CODE);
+        });
     });
-});
 
-export const router: Router = appRouter;
+    appRouter.get("/all", (req: Request, res: Response) => {
+        eventController.all().then((events) => {
+            res.send(events).status(REQUEST_SUCCESS);
+        }).catch(() => {
+            res.send("ERROR").status(ERROR_CODE);
+        });
+    });
+
+    return appRouter;
+
+}

@@ -8,8 +8,8 @@
   "description": "Google calendar integration in backend. Modern REST API with DB connection using TypeORM support. The whole project will use TypeScript.",
   "main": "",
   "scripts": {
-    "start:debug": "CONNECTION_TYPE=default ts-node --inspect ./src/server.ts",
-    "start": "CONNECTION_TYPE=default ts-node ./src/server.ts",
+    "start:debug": "ts-node --inspect ./src/server.ts",
+    "start": "ts-node ./src/server.ts",
     "tsc": "tsc",
     "test": "jest"
   },

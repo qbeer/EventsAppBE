@@ -1,27 +1,27 @@
 import bodyParser from "body-parser";
 import express from "express";
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import { CONNECTION_TYPE, PORT } from "../config";
-import { router } from "./router";
+import { OAuth2Client } from "google-auth-library";
+import { PORT } from "../config";
+import { setUpRouter } from "./router";
+import { CalendarAuthService } from "./service/CalendarAuthService";
 
 export const app: express.Application = express();
 const port: string | number = PORT;
-const connectionType: string = CONNECTION_TYPE;
 
-createConnection(connectionType).then(() => {
+const authService = new CalendarAuthService();
+
+authService.authorizedClient().then((client: OAuth2Client) => {
 
     app.use(bodyParser.json());
 
-    app.use(router);
+    app.use(setUpRouter(client));
 
-    console.log("Connection to DB established.");
     app.listen(port, () => {
         console.log(`Events App backend listening on port: ${port}`);
     });
 
-}).catch((error) => {
+}).catch(() => {
 
-    console.log(error);
+    console.log("Authentication failed.");
 
 });
