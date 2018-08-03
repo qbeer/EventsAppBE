@@ -24,10 +24,10 @@ export class CalendarService {
                 const myEvents: Event[] = [];
                 events.map((event) => {
                     const myEvent: Event = new Event();
-                    myEvent.eventDescription = event.description;
-                    myEvent.eventDate = new Date(event.start.dateTime);
-                    myEvent.eventHost = event.organizer.displayName;
-                    myEvent.eventLocation = event.location;
+                    myEvent.description = event.description;
+                    myEvent.date = new Date(event.start.dateTime);
+                    myEvent.host = event.organizer.displayName;
+                    myEvent.location = event.location;
                     if (event.attendees) {
                         myEvent.maxParticipants = event.attendees.length + 1;
                     } else {
@@ -47,19 +47,19 @@ export class CalendarService {
     }
 
     public insertEvent(event: Event): Promise<Event> {
-        event.eventDate = new Date();
-        event.eventDate.setFullYear(2021);
+        event.date = new Date();
+        event.date.setFullYear(2021);
         const myEvent = {
             summary: event.title,
             // tslint:disable-next-line:object-literal-sort-keys
-            location: event.eventLocation,
-            description: event.eventDescription,
+            location: event.location,
+            description: event.description,
             start: {
-                dateTime: event.eventDate.toISOString(),
+                dateTime: event.date.toISOString(),
                 timeZone: "America/Los_Angeles",
             },
             end: {
-                dateTime: event.eventDate.toISOString(),
+                dateTime: event.date.toISOString(),
                 timeZone: "America/Los_Angeles",
             },
             recurrence: [

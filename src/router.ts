@@ -13,9 +13,9 @@ export function setUpRouter(client: OAuth2Client): Router {
 
     appRouter.post("/save", (req: Request, res: Response) => {
         const event: Event = {
-            eventDescription: req.body.eventDescription,
-            eventHost: req.body.eventHost,
-            eventLocation: req.body.eventLocation,
+            description: req.body.description,
+            host: req.body.host,
+            location: req.body.location,
             maxParticipants: req.body.maxParticipants ? req.body.maxParticipants : undefined };
         eventController.save(event).then((savedEvent) => {
             res.send(savedEvent).status(REQUEST_SUCCESS);

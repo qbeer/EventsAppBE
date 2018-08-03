@@ -5,15 +5,15 @@ export class Event {
 
     title?: string | undefined;
 
-    eventDate?: Date | undefined;
+    date?: Date | undefined;
 
     timeZone?: string | undefined;
 
-    eventDescription: string | undefined;
+    description: string | undefined;
 
-    eventHost: string | undefined;
+    host: string | undefined;
 
     maxParticipants?: number | undefined;
 
-    eventLocation: string | undefined;
+    location: string | undefined;
 }
