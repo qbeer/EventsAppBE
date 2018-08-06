@@ -5,7 +5,7 @@ export class Event {
 
     title?: string | undefined;
 
-    date?: Date | undefined;
+    date?: string | undefined;
 
     timeZone?: string | undefined;
 
@@ -16,4 +16,8 @@ export class Event {
     maxParticipants?: number | undefined;
 
     location: string | undefined;
+
+    public toString() {
+        return `Event[${this.title}, ${this.date}, ${this.description}, ${this.host}, ${this.location}]`;
+    }
 }

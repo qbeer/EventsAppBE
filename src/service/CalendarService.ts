@@ -7,7 +7,7 @@ export class CalendarService {
     private calendar: calendar_v3.Calendar;
 
     constructor(client: OAuth2Client) {
-        this.calendar = google.calendar({version: "v3", auth: client});
+        this.calendar = google.calendar({ version: "v3", auth: client });
     }
 
     public getUpcomingEvents(): Promise<Event[]> {
@@ -17,15 +17,17 @@ export class CalendarService {
             timeMin: (new Date()).toISOString(),
             // tslint:disable-next-line:object-literal-sort-keys
             singleEvents: true,
+            maxResults: 50,
             orderBy: "startTime",
         }).then((res) => {
             const events = res.data.items;
             if (events.length) {
                 const myEvents: Event[] = [];
                 events.map((event) => {
+                    console.log(event);
                     const myEvent: Event = new Event();
                     myEvent.description = event.description;
-                    myEvent.date = new Date(event.start.dateTime);
+                    myEvent.date = event.start.dateTime;
                     myEvent.host = event.organizer.displayName;
                     myEvent.location = event.location;
                     if (event.attendees) {
@@ -47,19 +49,18 @@ export class CalendarService {
     }
 
     public insertEvent(event: Event): Promise<Event> {
-        event.date = new Date();
-        event.date.setFullYear(2021);
+        console.log("Date: " + event.date);
         const myEvent = {
             summary: event.title,
             // tslint:disable-next-line:object-literal-sort-keys
             location: event.location,
             description: event.description,
             start: {
-                dateTime: event.date.toISOString(),
+                dateTime: event.date,
                 timeZone: "America/Los_Angeles",
             },
             end: {
-                dateTime: event.date.toISOString(),
+                dateTime: event.date,
                 timeZone: "America/Los_Angeles",
             },
             recurrence: [
@@ -80,6 +81,9 @@ export class CalendarService {
             calendarId: "primary",
             requestBody: myEvent,
         }).then((rEvent) => {
+            console.log(myEvent);
+            console.log("***********************");
+            console.log(rEvent);
             return event;
         }).catch((err) => {
             console.log("Error adding event: " + err);

@@ -12,12 +12,14 @@ export function setUpRouter(client: OAuth2Client): Router {
     const eventController: EventController = ControllerFactory.getInstance(client);
 
     appRouter.post("/save", (req: Request, res: Response) => {
-        const event: Event = {
+        const reqEvent: Event = {
+            date: req.body.date,
             description: req.body.description,
             host: req.body.host,
             location: req.body.location,
-            maxParticipants: req.body.maxParticipants ? req.body.maxParticipants : undefined };
-        eventController.save(event).then((savedEvent) => {
+            maxParticipants: req.body.maxParticipants ? req.body.maxParticipants : undefined,
+        };
+        eventController.save(reqEvent).then((savedEvent) => {
             res.send(savedEvent).status(REQUEST_SUCCESS);
         }).catch(() => {
             res.send("ERROR").status(ERROR_CODE);
