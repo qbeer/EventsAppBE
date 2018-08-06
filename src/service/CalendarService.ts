@@ -30,6 +30,7 @@ export class CalendarService {
                     myEvent.date = event.start.dateTime;
                     myEvent.host = event.organizer.displayName;
                     myEvent.location = event.location;
+                    myEvent.title = event.summary;
                     if (event.attendees) {
                         myEvent.maxParticipants = event.attendees.length + 1;
                     } else {
