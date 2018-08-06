@@ -10,21 +10,20 @@ export class CalendarService {
         this.calendar = google.calendar({ version: "v3", auth: client });
     }
 
-    public getUpcomingEvents(): Promise<Event[]> {
+    public getUpcomingEvents(id: string): Promise<Event[]> {
 
         return this.calendar.events.list({
-            calendarId: "primary",
+            calendarId: id,
             timeMin: (new Date()).toISOString(),
             // tslint:disable-next-line:object-literal-sort-keys
             singleEvents: true,
-            maxResults: 50,
+            maxResults: 25,
             orderBy: "startTime",
         }).then((res) => {
             const events = res.data.items;
             if (events.length) {
                 const myEvents: Event[] = [];
                 events.map((event) => {
-                    console.log(event);
                     const myEvent: Event = new Event();
                     myEvent.description = event.description;
                     myEvent.date = event.start.dateTime;
@@ -49,8 +48,7 @@ export class CalendarService {
         });
     }
 
-    public insertEvent(event: Event): Promise<Event> {
-        console.log("Date: " + event.date);
+    public insertEvent(event: Event, id: string): Promise<Event> {
         const myEvent = {
             summary: event.title,
             // tslint:disable-next-line:object-literal-sort-keys
@@ -79,16 +77,23 @@ export class CalendarService {
             },
         };
         return this.calendar.events.insert({
-            calendarId: "primary",
+            calendarId: id,
             requestBody: myEvent,
         }).then((rEvent) => {
-            console.log(myEvent);
-            console.log("***********************");
-            console.log(rEvent);
             return event;
         }).catch((err) => {
             console.log("Error adding event: " + err);
             throw err;
+        });
+    }
+
+    public listCalendars(): Promise<string[]> {
+        return this.calendar.calendarList.list().then((list) => {
+            const ids: string[] = [];
+            list.data.items.forEach((item) => {
+                ids.push(item.id);
+            });
+            return ids;
         });
     }
 

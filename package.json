@@ -10,6 +10,7 @@
   "scripts": {
     "start:debug": "ts-node --inspect ./src/server.ts",
     "start": "ts-node ./src/server.ts",
+    "run": "./node_modules/nodemon/bin/nodemon.js",
     "tsc": "tsc",
     "test": "jest"
   },
