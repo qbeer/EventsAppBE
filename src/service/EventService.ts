@@ -17,4 +17,8 @@ export class EventService {
         return this.service.listCalendars();
     }
 
+    public updateEvent(id: string, event: Event): Promise<Event> {
+        return this.service.updateEvent(id, event);
+    }
+
 }

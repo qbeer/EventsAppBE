@@ -16,4 +16,8 @@ export class EventController {
     public getAll(id: string): Promise<Event[]> {
         return this.service.getAll(id);
     }
+
+    public updateEvent(id: string, event: Event): Promise<Event> {
+        return this.service.updateEvent(id, event);
+    }
 }

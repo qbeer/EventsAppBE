@@ -25,6 +25,7 @@ export class CalendarService {
                 const myEvents: Event[] = [];
                 events.map((event) => {
                     const myEvent: Event = new Event();
+                    myEvent.id = event.id;
                     myEvent.description = event.description;
                     myEvent.date = event.start.dateTime;
                     myEvent.host = event.organizer.displayName;
@@ -94,6 +95,56 @@ export class CalendarService {
                 ids.push(item.id);
             });
             return ids;
+        });
+    }
+
+    public getEventById(id: string): Promise<Event> {
+        return this.calendar.events.get({ calendarId: "primary", eventId: id }).then((event) => {
+            const myEvent: Event = new Event();
+            myEvent.id = event.data.id;
+            myEvent.description = event.data.description;
+            myEvent.date = event.data.start.dateTime;
+            myEvent.host = event.data.organizer.displayName;
+            myEvent.location = event.data.location;
+            myEvent.title = event.data.summary;
+            if (event.data.attendees) {
+                myEvent.maxParticipants = event.data.attendees.length + 1;
+            } else {
+                myEvent.maxParticipants = 1;
+            }
+            return myEvent;
+        }).catch((err) => {
+            console.log("Error while getting event: " + err);
+            throw err;
+        });
+    }
+
+    public updateEvent(id: string, event: Event): Promise<Event> {
+        return this.getEventById(id).then((myEvent) => {
+            return this.calendar.events.update({
+                calendarId: "primary", eventId: id, requestBody: {
+                    summary: event.title ? event.title : myEvent.title,
+                    // tslint:disable-next-line:object-literal-sort-keys
+                    location: event.location ? event.location : myEvent.location,
+                    description: event.description ? event.description : myEvent.description,
+                    start: {
+                        dateTime: event.date ? event.date : myEvent.date,
+                        timeZone: "America/Los_Angeles",
+                    },
+                    end: {
+                        dateTime: event.date ? event.date : myEvent.date,
+                        timeZone: "America/Los_Angeles",
+                    },
+                },
+                // tslint:disable-next-line:align
+            }).then(() => {
+                return event;
+            }).catch((err) => {
+                console.log("Error updateing evet: " + err);
+                throw err;
+            });
+        }).catch((err) => {
+            throw err;
         });
     }
 

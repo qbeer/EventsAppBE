@@ -1,7 +1,7 @@
 
 export class Event {
     // tslint:disable:member-access
-    id?: number | undefined;
+    id?: string | undefined;
 
     title?: string | undefined;
 
